@@ -2,7 +2,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { UserCard } from "../commons/UserCard";
 import { useContext, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { MessageBar } from "./messageBar";
+import { MessageBar } from "./MessageBar";
 
 const dummyUsers = [
   {
