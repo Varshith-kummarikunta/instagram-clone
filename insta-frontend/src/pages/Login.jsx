@@ -1,4 +1,4 @@
-import { Footer } from "../components/commons/footer";
+import { Footer } from "../components/commons/Footer";
 import { LoginForm } from "../components/Login/LoginForm";
 import hero from "../assets/hero.png";
 

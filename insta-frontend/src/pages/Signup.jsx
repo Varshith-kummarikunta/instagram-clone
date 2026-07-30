@@ -1,4 +1,4 @@
-import { Footer } from "../components/commons/footer";
+import { Footer } from "../components/commons/Footer";
 import { SignupForm } from "../components/Signup/SignupForm";
 
 export const Signup = () => {
