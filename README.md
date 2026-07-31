@@ -527,8 +527,6 @@ Repository: https://github.com/Varshith-kummarikunta/instagram-clone
 ```
 
 ---
-
-# 📸 Screenshots
 # 📸 Screenshots
 
 ## Login
