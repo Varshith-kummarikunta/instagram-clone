@@ -16,7 +16,16 @@ This project demonstrates real-world full-stack engineering practices including:
 * React component architecture
 * Production deployment
 
+
+![React](https://img.shields.io/badge/React-19-blue)
+![Node.js](https://img.shields.io/badge/Node.js-Express-green)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-success)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+
 ---
+
+
 
 # 🚀 Live Demo
 
@@ -512,28 +521,33 @@ Solution:
 Configured:
 
 ```
-FRONTEND_URL=https://instagram-clone-two-ashy.vercel.app
+Frontend: https://instagram-clone-two-ashy.vercel.app
+Backend: https://instagram-clone-zd72.onrender.com
+Repository: https://github.com/Varshith-kummarikunta/instagram-clone
 ```
 
 ---
 
 # 📸 Screenshots
+# 📸 Screenshots
 
-Add screenshots:
+## Login
+![Login](screenshots/login.png)
 
-```
-screenshots/
+## Signup
+![Signup](screenshots/signup.png)
 
-├── login.png
+## Home Feed
+![Feed](screenshots/feed.png)
 
-├── signup.png
+## Create Post
+![Create Post](screenshots/create-post.png)
 
-├── feed.png
+## Comments Modal
+![Comments](screenshots/comments-modal.png)
 
-├── create-post.png
-
-└── comments-modal.png
-```
+## Profile
+![Profile](screenshots/profile.png)
 
 ---
 
