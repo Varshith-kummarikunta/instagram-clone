@@ -1,73 +1,196 @@
 # 📸 Instagram Clone — MERN Full Stack Social Media Platform
 
-A full-stack Instagram-inspired social media application built using the **MERN stack**.
-Users can create posts, like posts, add comments, and interact through a modern responsive UI.
+![Instagram Clone Banner](screenshots/banner.png)
 
-This project demonstrates real-world full-stack development concepts including authentication, REST APIs, MongoDB relationships, protected routes, and modern React UI development.
+A production-ready **Instagram-inspired social media platform** built using the **MERN Stack**.
+
+The application allows users to create accounts, upload images, create posts, like posts, comment, and interact through a modern responsive interface.
+
+This project demonstrates real-world full-stack engineering practices including:
+
+* JWT authentication
+* REST API development
+* MongoDB database relationships
+* Cloudinary image management
+* Protected routes
+* React component architecture
+* Production deployment
 
 ---
 
-## 🚀 Live Demo
+# 🚀 Live Demo
 
-🔗 Frontend: Coming Soon
-🔗 Backend API: Coming Soon
+| Service        | Link                                                     |
+| -------------- | -------------------------------------------------------- |
+| 🌐 Frontend    | https://instagram-clone-two-ashy.vercel.app              |
+| ⚙️ Backend API | https://instagram-clone-zd72.onrender.com                |
+| 💻 Source Code | https://github.com/Varshith-kummarikunta/instagram-clone |
 
 ---
 
 # ✨ Features
 
-## 🔐 Authentication
+## 🔐 Authentication System
+
+Complete JWT-based authentication flow.
+
+Features:
 
 * User registration
 * User login
-* JWT-based authentication
+* Password hashing using bcrypt
+* JWT token generation
 * Protected API routes
-* Secure password handling
-* Persistent user sessions
+* Persistent login sessions
+* Secure authorization middleware
 
 ---
 
-## 📝 Posts
+# 📝 Post Management
 
-* Create new posts
+Users can create and manage posts.
+
+Implemented:
+
+* Create posts
+* Upload images
+* Add captions
 * View all posts
-* Display user information with posts
 * Update own posts
 * Delete own posts
-* Like/unlike posts
+* Display author information
+* Dynamic post feed
+
+---
+
+# ☁️ Cloudinary Image Upload
+
+Integrated Cloudinary for production image storage.
+
+Image flow:
+
+```
+User selects image
+        |
+        ↓
+Frontend uploads image
+        |
+        ↓
+Backend processes file
+        |
+        ↓
+Cloudinary stores image
+        |
+        ↓
+Image URL saved in MongoDB
+        |
+        ↓
+Image displayed in feed
+```
+
+Features:
+
+* Cloud-based image storage
+* Optimized image delivery
+* Persistent image URLs
+
+---
+
+# ❤️ Like System
+
+Instagram-style like functionality.
+
+Features:
+
+* Like posts
+* Unlike posts
+* Toggle like state
 * Dynamic like count
+* Animated heart interaction
+
+Built using:
+
+* React state updates
+* Framer Motion animations
 
 ---
 
-## ❤️ Like System
+# 💬 Comment System
 
-* Toggle like/unlike functionality
-* Real-time UI update after liking
-* Animated heart interaction using Framer Motion
+Complete comment functionality.
 
----
+Features:
 
-## 💬 Comment System
-
-* Add comments on posts
-* View all comments
+* Add comments
+* View comments
 * Update own comments
 * Instagram-style comment modal
 * Auto-focus comment input
-* Close modal with:
+* Escape key close
+* Outside click close
+* Scroll locking
 
-  * Close button
-  * Outside click
-  * Escape key
+Comment modal design:
+
+```
++---------------------------+
+|                           |
+|      Post Image           |
+|                           |
+|---------------------------|
+| Username                  |
+| Caption                   |
+|                           |
+| Comments                  |
+|                           |
+| Add comment               |
++---------------------------+
+```
 
 ---
 
-## 🎨 User Interface
+# 🎨 User Interface
 
-* Responsive Instagram-inspired design
+Built with modern React UI practices.
+
+Features:
+
+* Responsive design
+* Instagram-inspired layout
+* Dark theme
 * Tailwind CSS styling
 * Smooth animations
-* Modern component-based architecture
+* Component-based architecture
+
+---
+
+# 🏗️ Application Architecture
+
+```
+                User Browser
+
+                    |
+                    |
+
+        React + Vite Frontend
+
+                    |
+
+              REST APIs
+
+                    |
+
+        Node.js + Express Backend
+
+                    |
+
+             MongoDB Atlas
+
+                    |
+
+              Cloudinary
+           Image Storage
+```
 
 ---
 
@@ -78,9 +201,10 @@ This project demonstrates real-world full-stack development concepts including a
 * React.js
 * Vite
 * Tailwind CSS
+* React Router DOM
+* Context API
 * Framer Motion
-* React Router
-* Axios
+* Fetch API
 
 ## Backend
 
@@ -88,14 +212,33 @@ This project demonstrates real-world full-stack development concepts including a
 * Express.js
 * MongoDB
 * Mongoose
-* JWT Authentication
-* REST APIs
+* JWT
+* bcrypt
+* Multer
+* Cloudinary
+* CORS
 
-## Tools
+## Deployment
 
-* Git & GitHub
-* Postman
-* VS Code
+Frontend:
+
+* Vercel
+
+Backend:
+
+* Render
+
+Database:
+
+* MongoDB Atlas
+
+Storage:
+
+* Cloudinary
+
+Version Control:
+
+* Git + GitHub
 
 ---
 
@@ -103,20 +246,33 @@ This project demonstrates real-world full-stack development concepts including a
 
 ```
 Instagram_Clone
+
 │
 ├── insta-backend
-│   │
+│
 │   ├── controllers
+│   │
 │   ├── middlewares
+│   │
 │   ├── models
+│   │
 │   ├── routers
+│   │
 │   ├── utilities
+│   │
 │   ├── index.js
 │   └── package.json
+│
 │
 └── insta-frontend
     │
     ├── src
+    │
+    │   ├── components
+    │   ├── pages
+    │   ├── contexts
+    │   └── App.jsx
+    │
     ├── public
     ├── package.json
     └── vite.config.js
@@ -126,7 +282,7 @@ Instagram_Clone
 
 # ⚙️ Installation & Setup
 
-## 1. Clone Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/Varshith-kummarikunta/instagram-clone.git
@@ -138,7 +294,7 @@ cd instagram-clone
 
 # Backend Setup
 
-Navigate to backend:
+Navigate:
 
 ```bash
 cd insta-backend
@@ -150,49 +306,65 @@ Install dependencies:
 npm install
 ```
 
-Create `.env` file:
+Create `.env`
 
-```
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
+```env
+PORT=8000
+
+MONGODB_URI=your_mongodb_connection_string
+
 JWT_SECRET=your_secret_key
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+
+CLOUDINARY_API_KEY=your_api_key
+
+CLOUDINARY_SECRET_KEY=your_secret_key
+
+FRONTEND_URL=http://localhost:5173
 ```
 
-Start backend:
+Run server:
 
 ```bash
 npm run dev
 ```
 
-Backend runs on:
+Backend:
 
 ```
-http://localhost:5000
+http://localhost:8000
 ```
 
 ---
 
 # Frontend Setup
 
-Open another terminal:
+Navigate:
 
 ```bash
 cd insta-frontend
 ```
 
-Install dependencies:
+Install:
 
 ```bash
 npm install
 ```
 
-Start development server:
+Create `.env`
+
+```env
+VITE_API_URL=http://localhost:8000
+```
+
+Run:
 
 ```bash
 npm run dev
 ```
 
-Frontend runs on:
+Frontend:
 
 ```
 http://localhost:5173
@@ -200,14 +372,14 @@ http://localhost:5173
 
 ---
 
-# 🔌 API Endpoints
+# 🔌 API Documentation
 
 ## Authentication
 
-| Method | Endpoint         | Description   |
-| ------ | ---------------- | ------------- |
-| POST   | `/auth/register` | Register user |
-| POST   | `/auth/login`    | Login user    |
+| Method | Endpoint  | Description    |
+| ------ | --------- | -------------- |
+| POST   | `/signup` | Create account |
+| POST   | `/login`  | Login user     |
 
 ---
 
@@ -233,63 +405,183 @@ http://localhost:5173
 
 ---
 
-# 🧠 Learning Outcomes
+# 🚢 Deployment
 
-Through this project, I implemented:
+## Frontend Deployment
 
-* Full-stack MERN architecture
-* JWT authentication flow
-* Protected backend routes
-* MongoDB schema relationships
-* REST API design
-* React component architecture
-* State management
-* Responsive UI development
-* User interaction patterns used in real applications
+Platform:
+
+Vercel
+
+Configuration:
+
+```
+Root Directory:
+insta-frontend
+
+Framework:
+Vite
+
+Build Command:
+npm run build
+
+Output:
+dist
+```
+
+Environment:
+
+```
+VITE_API_URL=https://instagram-clone-zd72.onrender.com
+```
+
+---
+
+## Backend Deployment
+
+Platform:
+
+Render
+
+Configuration:
+
+```
+Root Directory:
+insta-backend
+
+Build:
+npm install
+
+Start:
+npm start
+```
+
+Environment variables configured:
+
+* MongoDB URI
+* JWT Secret
+* Cloudinary credentials
+* Frontend URL
+
+---
+
+# 🧠 Engineering Challenges Solved
+
+## Linux Case Sensitivity Issue
+
+Problem:
+
+Application worked locally but failed on Vercel.
+
+Cause:
+
+Windows ignores filename capitalization differences.
+
+Solution:
+
+Fixed imports to exactly match filenames.
+
+Example:
+
+Before:
+
+```
+./messageBar
+```
+
+After:
+
+```
+./MessageBar
+```
+
+---
+
+## Production CORS Configuration
+
+Problem:
+
+Frontend requests blocked after deployment.
+
+Cause:
+
+Backend allowed localhost origin.
+
+Solution:
+
+Configured:
+
+```
+FRONTEND_URL=https://instagram-clone-two-ashy.vercel.app
+```
 
 ---
 
 # 📸 Screenshots
 
-*Add application screenshots here*
-
-Example:
+Add screenshots:
 
 ```
 screenshots/
- ├── login.png
- ├── feed.png
- ├── post-modal.png
- └── comments.png
+
+├── login.png
+
+├── signup.png
+
+├── feed.png
+
+├── create-post.png
+
+└── comments-modal.png
 ```
 
 ---
 
 # 🔮 Future Improvements
 
-Planned features:
+Planned:
 
-* [ ] Cloudinary image upload
 * [ ] User profile pages
+* [ ] Edit profile
 * [ ] Follow/unfollow system
-* [ ] Infinite scrolling feed
-* [ ] Real-time notifications using Socket.io
-* [ ] Stories feature
-* [ ] Search users and posts
+* [ ] Followers/following count
+* [ ] Infinite scrolling
+* [ ] Search users
 * [ ] Saved posts
-* [ ] Dark mode
+* [ ] Stories
+* [ ] Real-time notifications using Socket.io
+* [ ] Direct messaging
+* [ ] Reels
+* [ ] Dark/light theme
+
+---
+
+# 📚 Learning Outcomes
+
+Through this project I implemented:
+
+* Full-stack MERN architecture
+* REST API development
+* JWT authentication
+* Database relationships
+* Cloud image storage
+* React state management
+* Component architecture
+* Production deployment
+* Debugging real-world deployment issues
 
 ---
 
 # 👨‍💻 Author
 
-**Varshith Kummarikunta**
+## Varshith Kummarikunta
 
 B.Tech Computer Science Engineering (2025)
 
 GitHub:
+
 https://github.com/Varshith-kummarikunta
 
 ---
 
-⭐ If you like this project, consider giving it a star!
+⭐ If you found this project useful, consider giving it a star.
