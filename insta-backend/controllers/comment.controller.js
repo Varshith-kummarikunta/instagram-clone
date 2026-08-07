@@ -1,6 +1,8 @@
 const { response } = require("express");
 const { Comment } = require("../models/comment.model");
 const { Post } = require("../models/post.model");
+const { Notification } = require("../models/notification.model");
+const { sendNotification } = require("../utilities/sendNotification");
 
 const createComment = async (request, response) => {
   const { text } = request.body;
@@ -32,6 +34,29 @@ const createComment = async (request, response) => {
       return response.status(500).json({ message: "Internal server error" });
     }
 
+    // CREATE COMMENT NOTIFICATION
+
+    if (post.author.toString() !== request.user._id.toString()) {
+      await Notification.create({
+        recipient: post.author,
+
+        sender: request.user._id,
+
+        type: "comment",
+
+        post: post._id,
+      });
+
+      sendNotification(post.author.toString(), {
+        type: "comment",
+        post: post._id,
+        sender: {
+          username: request.user.username,
+          profilePicture: request.user.profilePicture,
+        },
+      });
+    }
+
     // Step 5: Update the commentCount in the post and save the post
     post.commentCount = post.commentCount + 1;
     const savedPost = await post.save();
@@ -55,7 +80,7 @@ const getAllComments = async (request, response) => {
   const { postId } = request.params;
   try {
     const comments = await Comment.find({ post: postId })
-      .populate("author", "name email username")
+      .populate("author", "name username profilePicture")
       .sort({ createdAt: -1 });
 
     return response.status(200).json(comments);

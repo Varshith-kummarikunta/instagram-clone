@@ -1,10 +1,22 @@
 const { response } = require("express");
 const { Post } = require("../models/post.model");
 const { User } = require("../models/user.model");
+const { Notification } = require("../models/notification.model");
+const { sendNotification } = require("../utilities/sendNotification");
 
 const getAllPosts = async (request, response) => {
   try {
-    const posts = await Post.find().populate("author", "username email name");
+    // Get current logged-in user
+    const currentUser = await User.findById(request.user._id);
+
+    // Show only posts from people the user follows + their own posts
+    const posts = await Post.find({
+      author: {
+        $in: [...currentUser.following, currentUser._id],
+      },
+    })
+      .populate("author", "username name profilePicture")
+      .sort({ createdAt: -1 });
 
     return response.status(200).json(posts);
   } catch (err) {
@@ -43,7 +55,7 @@ const createPost = async (request, response) => {
 
     const updatedPost = await Post.findById(savedPost._id).populate(
       "author",
-      "username email name",
+      "username name profilePicture",
     );
 
     return response.status(200).json(updatedPost);
@@ -80,6 +92,29 @@ const toggleLike = async (request, response) => {
     // do add user to post.likes
     else {
       post.likes.push(userId);
+
+      // CREATE LIKE NOTIFICATION
+
+      if (post.author.toString() !== userId.toString()) {
+        await Notification.create({
+          recipient: post.author,
+
+          sender: userId,
+
+          type: "like",
+
+          post: post._id,
+        });
+
+        sendNotification(post.author.toString(), {
+          type: "like",
+          post: post._id,
+          sender: {
+            username: request.user.username,
+            profilePicture: request.user.profilePicture,
+          },
+        });
+      }
     }
 
     // Finally save the post
@@ -93,7 +128,7 @@ const toggleLike = async (request, response) => {
 
     const updatedPost = await Post.findById(savedPost._id).populate(
       "author",
-      "username email name",
+      "username name profilePicture",
     );
 
     return response.status(200).json(updatedPost);
@@ -141,7 +176,7 @@ const updatePost = async (request, response) => {
 
     const updatedPost = await Post.findById(savedPost._id).populate(
       "author",
-      "username email name",
+      "username name profilePicture",
     );
 
     return response.status(200).json(updatedPost);

@@ -156,7 +156,10 @@ export const CreatePostModal = ({ open, setOpen, onPostCreated }) => {
           <div className="w-[350px] p-2 flex flex-col gap-2">
             <UserCard
               username={user.username}
-              profileImg="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              profileImg={
+                user.profilePicture ||
+                "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              }
             />
             <textarea
               value={caption}

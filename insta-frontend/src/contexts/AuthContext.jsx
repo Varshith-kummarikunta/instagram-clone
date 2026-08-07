@@ -1,5 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../socket";
 
 const AuthContext = createContext(undefined);
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -9,8 +10,52 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem(LS_KEY)) || null,
   );
-  const navigate = useNavigate();
 
+  const [onlineStatus, setOnlineStatus] = useState({});
+  const navigate = useNavigate();
+  useEffect(() => {
+  if (!user) return;
+
+  socket.connect();
+
+  socket.on("connect", () => {
+    console.log("Socket Connected:", socket.id);
+
+    socket.emit("join", user._id);
+  });
+
+  socket.on("onlineUsers", (users) => {
+  const status = {};
+
+  users.forEach((id) => {
+    status[id] = true;
+  });
+
+  setOnlineStatus(status);
+});
+
+socket.on("userOnline", (userId) => {
+  setOnlineStatus((prev) => ({
+    ...prev,
+    [userId]: true,
+  }));
+});
+
+socket.on("userOffline", (userId) => {
+  setOnlineStatus((prev) => ({
+    ...prev,
+    [userId]: false,
+  }));
+});
+
+  return () => {
+  socket.off("connect");
+  socket.off("onlineUsers");
+  socket.off("userOnline");
+  socket.off("userOffline");
+  socket.disconnect();
+};
+}, [user]);
   async function login(identifier, password) {
     try {
       const res = await fetch(`${BASE_URL}/login`, {
@@ -27,6 +72,7 @@ const AuthProvider = ({ children }) => {
       }
 
       setUser(data);
+
       localStorage.setItem(LS_KEY, JSON.stringify(data));
       navigate("/");
     } catch (err) {
@@ -50,6 +96,7 @@ const AuthProvider = ({ children }) => {
       }
 
       setUser(data);
+
       localStorage.setItem(LS_KEY, JSON.stringify(data));
       navigate("/");
     } catch (err) {
@@ -58,13 +105,23 @@ const AuthProvider = ({ children }) => {
   }
 
   function logout() {
+    socket.disconnect();
     localStorage.removeItem(LS_KEY);
     setUser(null);
-    navigate("/login");
+    navigate("/login", { replace: true });
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider
+  value={{
+    user,
+    setUser,
+    login,
+    signup,
+    logout,
+    onlineStatus,
+  }}
+>
       {children}
     </AuthContext.Provider>
   );

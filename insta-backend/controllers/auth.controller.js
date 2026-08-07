@@ -52,14 +52,19 @@ const userLogin = async (request, response) => {
     ...userObj,
   });
 };
-
 const userSignup = async (request, response) => {
-  const { username, identifier, password, name } = request.body;
+  let { username, identifier, password, name } = request.body;
+
+
   if (!username || !password || !identifier || !name) {
     return response
       .status(400)
       .json({ message: "Please fill all the details" });
   }
+
+
+  username = username.toLowerCase().trim();
+  identifier = identifier.toLowerCase().trim();
 
   const isEmail = identifier.includes("@");
 
@@ -69,19 +74,23 @@ const userSignup = async (request, response) => {
     });
   }
 
-  let email;
-  let phone;
+  let email = null;
+let phone = null;
 
-  if (isEmail) {
-    email = identifier.toLowerCase();
-  } else {
-    phone = identifier;
-  }
+if (isEmail) {
+  email = identifier.toLowerCase().trim();
+} else {
+  phone = identifier.trim();
+}
 
   // If user already exists
-  const existingUser = await User.findOne({
-    $or: [{ email }, { phone }, { username }],
-  });
+ const existingUser = await User.findOne({
+  $or: [
+    ...(email ? [{ email }] : []),
+    ...(phone ? [{ phone }] : []),
+    { username },
+  ],
+});
 
   if (existingUser) {
     return response.status(400).json({

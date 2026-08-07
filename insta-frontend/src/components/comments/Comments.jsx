@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext, BASE_URL } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 export const Comments = ({ post, onClose, onCommentAdded }) => {
   const { user } = useContext(AuthContext);
@@ -112,7 +113,12 @@ export const Comments = ({ post, onClose, onCommentAdded }) => {
         <div className="w-1/2 flex flex-col p-4">
           {/* Header */}
           <div className="flex justify-between items-center border-b border-gray-700 pb-3">
-            <span className="font-semibold">{post.author.username}</span>
+            <Link
+  to={`/profile/${post.author.username}`}
+  className="font-semibold hover:underline"
+>
+  {post.author.username}
+</Link>
 
             <button onClick={onClose} className="text-xl">
               ✕
@@ -121,15 +127,35 @@ export const Comments = ({ post, onClose, onCommentAdded }) => {
 
           {/* Caption */}
           <div className="py-3 border-b border-gray-700">
-            <span className="font-semibold">{post.author.username}</span>{" "}
-            <span>{post.caption}</span>
+            <Link
+  to={`/profile/${post.author.username}`}
+  className="font-semibold hover:underline"
+>
+  {post.author.username}
+</Link>{" "}
+<span>{post.caption}</span>
           </div>
 
           {/* Comments */}
           <div className="flex-1 overflow-y-auto py-3">
             {comments.map((comment) => (
               <div key={comment._id} className="flex gap-2 mb-2">
-                <span className="font-semibold">{comment.author.username}</span>
+                <div key={comment._id} className="flex items-start gap-3 mb-3">
+                  <img
+                    src={
+                      comment.author.profilePicture ||
+                      "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                    }
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+
+                  <div>
+                    <span className="font-semibold">
+                      {comment.author.username}
+                    </span>{" "}
+                    <span>{comment.text}</span>
+                  </div>
+                </div>
 
                 <span>{comment.text}</span>
               </div>

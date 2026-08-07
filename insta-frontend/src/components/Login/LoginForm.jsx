@@ -28,13 +28,16 @@ export const LoginForm = () => {
           placeholder="Phone number, username or email"
           name="identifier"
           type="text"
+          autoComplete="username"
           required
         />
+
         <input
           className="w-64 p-2 bg-gray-800 border border-gray-600"
           placeholder="Password"
           type="password"
           name="password"
+          autoComplete="current-password"
           required
         />
         <button type="submit" className="bg-blue-600 mt-2 p-1 w-64 rounded">

@@ -3,7 +3,6 @@ import { IoSearch } from "react-icons/io5";
 import { MdOutlineExplore } from "react-icons/md";
 import { BsPlayBtn } from "react-icons/bs";
 import { MdOutlineMessage } from "react-icons/md";
-import { CiHeart } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { CgDetailsMore } from "react-icons/cg";
@@ -12,13 +11,15 @@ import { useState, useContext } from "react";
 import { CreatePostModal } from "./CreatePostModal";
 import { AuthContext } from "../../contexts/AuthContext";
 import { MdLogout } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { Notifications } from "../notifications/Notifications";
 
 export const LeftNav = ({ onPostCreated }) => {
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="sticky top-0 w-64 flex flex-col justify-between align-start border-r border-gray-700 pl-6 h-screen pb-4">
+    <div className="sticky top-0 w-64 overflow-visible flex flex-col justify-between border-r border-gray-700 pl-6 h-screen pb-4">
       <div className="mt-8 flex flex-col gap-10">
         <div className="text-3xl" style={{ fontFamily: "cursive" }}>
           Instagram
@@ -28,10 +29,10 @@ export const LeftNav = ({ onPostCreated }) => {
             <GoHomeFill size={28} />
             <div>Home</div>
           </div>
-          <div className="flex items-center gap-4">
+          <Link to="/search" className="flex items-center gap-4">
             <IoSearch size={28} />
             <div>Search</div>
-          </div>
+          </Link>
           <div className="flex items-center gap-4">
             <MdOutlineExplore size={28} />
             <div>Explore</div>
@@ -40,14 +41,11 @@ export const LeftNav = ({ onPostCreated }) => {
             <BsPlayBtn size={28} />
             <div>Reels</div>
           </div>
-          <div className="flex items-center gap-4">
+          <Link to="/messages" className="flex items-center gap-4">
             <MdOutlineMessage size={28} />
             <div>Messages</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <CiHeart size={28} fontWeight={600} />
-            <div>Notifications</div>
-          </div>
+          </Link>
+          <Notifications />
           <div
             onClick={() => {
               setOpen(true);
@@ -57,10 +55,13 @@ export const LeftNav = ({ onPostCreated }) => {
             <FaPlus size={28} />
             <div>Create</div>
           </div>
-          <div className="flex items-center gap-4">
+          <Link
+            to={`/profile/${user.username}`}
+            className="flex items-center gap-4"
+          >
             <CgProfile size={28} />
             <div>Profile</div>
-          </div>
+          </Link>
         </div>
       </div>
       <div className="flex flex-col gap-6 text-lg font-semibold">

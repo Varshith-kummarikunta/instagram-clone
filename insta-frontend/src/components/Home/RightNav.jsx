@@ -47,7 +47,7 @@ export const RightNav = () => {
         <UserCard
           key={user.username}
           username={user.username}
-          profileImg="https://images.unsplash.com/photo-1558203728-00f45181dd84?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          profileImg={user.profilePicture || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
           caption={user.name}
           rightElem={<span className="text-blue-500">Switch</span>}
         />
