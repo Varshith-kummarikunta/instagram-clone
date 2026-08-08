@@ -4,6 +4,9 @@ const {
   sendMessage,
   getMessages,
   markMessagesSeen,
+  deleteMessage,
+  editMessage,
+  toggleReaction,
 } = require("../controllers/message.controller");
 const { verifyAuth } = require("../middlewares/verifyAuth");
 
@@ -13,12 +16,17 @@ messageRouter.post("/", verifyAuth, sendMessage);
 
 messageRouter.get("/:receiverId", verifyAuth, getMessages);
 
+messageRouter.patch("/seen/:senderId", verifyAuth, markMessagesSeen);
+
 messageRouter.patch(
-  "/seen/:senderId",
+  "/:messageId/reaction",
   verifyAuth,
-  markMessagesSeen
+  toggleReaction,
 );
 
+messageRouter.delete("/:messageId", verifyAuth, deleteMessage);
+
+messageRouter.patch("/:messageId", verifyAuth, editMessage);
 module.exports = {
   messageRouter,
 };

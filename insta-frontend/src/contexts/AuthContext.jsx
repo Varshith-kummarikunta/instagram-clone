@@ -16,13 +16,13 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
   if (!user) return;
 
-  socket.connect();
-
   socket.on("connect", () => {
-    console.log("Socket Connected:", socket.id);
+  console.log("Socket Connected:", socket.id);
 
-    socket.emit("join", user._id);
-  });
+  socket.emit("join", user._id);
+});
+
+socket.connect();
 
   socket.on("onlineUsers", (users) => {
   const status = {};

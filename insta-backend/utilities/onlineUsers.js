@@ -10,7 +10,13 @@ const removeUser = (socketId) => {
   for (const [userId, id] of onlineUsers.entries()) {
     if (id === socketId) {
       removedUserId = userId;
-      onlineUsers.delete(userId);
+
+      // Only remove if this socket is still
+      // the user's currently registered socket.
+      if (onlineUsers.get(userId) === socketId) {
+        onlineUsers.delete(userId);
+      }
+
       break;
     }
   }

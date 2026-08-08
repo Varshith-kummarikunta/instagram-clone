@@ -35,21 +35,22 @@ const {
   addUser,
   removeUser,
   getOnlineUsers,
+  getUserSocket,
 } = require("./utilities/onlineUsers");
 
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id);
-socket.on("join", (userId) => {
-  addUser(userId, socket.id);
+  socket.on("join", (userId) => {
+    addUser(userId, socket.id);
 
-  // send currently online users
-  socket.emit("onlineUsers", getOnlineUsers());
+    // send currently online users
+    socket.emit("onlineUsers", getOnlineUsers());
 
-  // notify everyone else
-  socket.broadcast.emit("userOnline", userId);
+    // notify everyone else
+    socket.broadcast.emit("userOnline", userId);
 
-  console.log("User joined socket:", userId);
-});
+    console.log("User joined socket:", userId);
+  });
   socket.on("disconnect", () => {
     const removedUserId = removeUser(socket.id);
 
@@ -58,6 +59,26 @@ socket.on("join", (userId) => {
     }
 
     console.log("Socket disconnected:", socket.id);
+  });
+
+  socket.on("typing", ({ receiverId, senderId }) => {
+    const receiverSocketId = getUserSocket(receiverId);
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("userTyping", {
+        senderId,
+      });
+    }
+  });
+
+  socket.on("stopTyping", ({ receiverId, senderId }) => {
+    const receiverSocketId = getUserSocket(receiverId);
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("userStoppedTyping", {
+        senderId,
+      });
+    }
   });
 });
 
